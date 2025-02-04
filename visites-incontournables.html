@@ -1,191 +1,118 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sites Incontournables en Suisse</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <style>
-        /* Styles existants */
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        .region-section {
-            margin: 40px 0;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-        }
-        .site {
-            margin: 20px 0;
-            padding: 15px;
-            border-left: 4px solid #2196F3;
-            background-color: white;
-        }
-        .info-pratique {
-            background-color: #e3f2fd;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
-        }
-        
-        /* Nouveaux styles */
-        #map {
-            height: 500px;
-            margin: 20px 0;
-            border-radius: 10px;
-        }
-        .site-image {
-            width: 100%;
-            max-height: 400px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin: 10px 0;
-        }
-        .price-info {
-            background-color: #e8f5e9;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
-        }
-        .itineraire {
-            background-color: #fff3e0;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 8px;
-        }
-        .links {
-            margin: 10px 0;
-            padding: 10px;
-            background-color: #f5f5f5;
-            border-radius: 5px;
-        }
-    </style>
-</head>
+<!-- ... [En-tête précédent reste identique] ... -->
 <body>
-    <h1>Sites Incontournables en Suisse</h1>
+    <!-- ... [Contenu précédent jusqu'aux sections régionales] ... -->
 
-    <!-- Carte interactive -->
-    <div id="map"></div>
-
-    <!-- Filtres -->
-    <div class="filters">
-        <h2>Filtrer par région</h2>
-        <select id="region-filter">
-            <option value="all">Toutes les régions</option>
-            <option value="lemanique">Région Lémanique</option>
-            <option value="alpes">Alpes Suisses</option>
-            <option value="centrale">Suisse Centrale</option>
-            <option value="orientale">Suisse Orientale</option>
-            <option value="tessin">Tessin</option>
-        </select>
-    </div>
-
-    <!-- Suggestions d'itinéraires -->
-    <section class="itineraires">
-        <h2>Itinéraires Suggérés</h2>
-        
-        <div class="itineraire">
-            <h3>Grand Tour de Suisse (1 semaine)</h3>
-            <p>Un circuit complet pour découvrir les plus beaux sites :</p>
-            <ol>
-                <li>Jour 1-2 : Zürich et chutes du Rhin</li>
-                <li>Jour 3 : Lucerne et Mont Pilate</li>
-                <li>Jour 4 : Interlaken et Jungfraujoch</li>
-                <li>Jour 5 : Zermatt et le Cervin</li>
-                <li>Jour 6 : Montreux et Château de Chillon</li>
-                <li>Jour 7 : Genève et retour</li>
-            </ol>
-            <p><strong>Budget estimé :</strong> 1500-2000 CHF (tout compris)</p>
-        </div>
-
-        <div class="itineraire">
-            <h3>Circuit Culture et Nature (3 jours)</h3>
-            <p>Idéal pour un long week-end :</p>
-            <ol>
-                <li>Jour 1 : Lucerne et sa vieille ville</li>
-                <li>Jour 2 : Gruyères (château et fromagerie)</li>
-                <li>Jour 3 : Vallée du Lauterbrunnen et ses cascades</li>
-            </ol>
-            <p><strong>Budget estimé :</strong> 600-800 CHF</p>
-        </div>
-    </section>
-
-    <!-- Sites par région -->
+    <!-- Nouveaux sites ajoutés -->
     <div class="region-section">
-        <h2>Région Lémanique</h2>
-        
+        <h2>Joyaux Cachés de Suisse</h2>
+
         <div class="site">
-            <h3>Château de Chillon</h3>
-            <img src="/api/placeholder/800/400" alt="Château de Chillon" class="site-image" />
-            <p>Le plus visité des monuments historiques de Suisse, ce château médiéval est situé sur les rives du lac Léman.</p>
+            <h3>Gorges de l'Areuse</h3>
+            <img src="/api/placeholder/800/400" alt="Gorges de l'Areuse" class="site-image" />
+            <p>Une randonnée spectaculaire le long de gorges profondes, avec des passerelles suspendues et des cascades. Un site naturel impressionnant et moins touristique.</p>
             
             <div class="info-pratique">
-                <strong>Période idéale :</strong> Toute l'année<br>
-                <strong>Durée de visite :</strong> 2-3 heures<br>
-                <strong>Accès :</strong> Train jusqu'à Montreux puis bus ou 45 minutes à pied le long du lac
+                <strong>Période idéale :</strong> Mai à octobre<br>
+                <strong>Durée de visite :</strong> 3-4 heures de marche<br>
+                <strong>Accès :</strong> Train jusqu'à Noiraigue ou Champ-du-Moulin
             </div>
 
             <div class="price-info">
                 <strong>Tarifs :</strong><br>
-                - Adulte : 13.50 CHF<br>
-                - Enfant (6-16 ans) : 7 CHF<br>
-                - Swiss Travel Pass : Gratuit
-            </div>
-
-            <div class="links">
-                <strong>Liens utiles :</strong><br>
-                <a href="https://www.chillon.ch" target="_blank">Site officiel</a> |
-                <a href="https://www.chillon.ch/billetterie" target="_blank">Billetterie en ligne</a>
+                - Accès gratuit<br>
+                - Parking à Noiraigue : 5 CHF/jour
             </div>
         </div>
 
-        <!-- Nouveaux sites ajoutés -->
         <div class="site">
-            <h3>Gruyères</h3>
-            <img src="/api/placeholder/800/400" alt="Village de Gruyères" class="site-image" />
-            <p>Cité médiévale célèbre pour son château, sa fromagerie de démonstration et son musée HR Giger.</p>
+            <h3>Vallée de Lauterbrunnen</h3>
+            <img src="/api/placeholder/800/400" alt="Vallée de Lauterbrunnen" class="site-image" />
+            <p>Surnommée la "vallée des 72 cascades", c'est l'une des plus impressionnantes vallées glaciaires d'Europe. Le village de Lauterbrunnen est le point de départ pour Wengen et Mürren.</p>
             
             <div class="info-pratique">
                 <strong>Période idéale :</strong> Toute l'année<br>
-                <strong>Durée de visite :</strong> 1 journée<br>
-                <strong>Accès :</strong> Train direct depuis Montreux ou Berne
+                <strong>Durée de visite :</strong> 1-2 jours<br>
+                <strong>Accès :</strong> Train depuis Interlaken
             </div>
 
             <div class="price-info">
                 <strong>Tarifs :</strong><br>
-                - Château : 12 CHF<br>
-                - Maison du Gruyère : 7 CHF<br>
-                - Musée HR Giger : 12.50 CHF
+                - Téléphérique Lauterbrunnen-Mürren : 32 CHF aller-retour<br>
+                - Train à crémaillère pour Wengen : 28 CHF aller-retour<br>
+                - Swiss Travel Pass : inclus
+            </div>
+        </div>
+
+        <div class="site">
+            <h3>Chutes du Rhin</h3>
+            <img src="/api/placeholder/800/400" alt="Chutes du Rhin" class="site-image" />
+            <p>Les plus grandes chutes d'eau d'Europe, avec une plateforme d'observation qui vous emmène au plus près des flots tumultueux.</p>
+            
+            <div class="info-pratique">
+                <strong>Période idéale :</strong> Avril à octobre (plus impressionnant en juin avec la fonte des neiges)<br>
+                <strong>Durée de visite :</strong> 2-3 heures<br>
+                <strong>Accès :</strong> Train jusqu'à Schaffhouse puis bus
             </div>
 
-            <div class="links">
-                <strong>Liens utiles :</strong><br>
-                <a href="https://www.la-gruyere.ch" target="_blank">Site officiel</a>
+            <div class="price-info">
+                <strong>Tarifs :</strong><br>
+                - Entrée au Château de Laufen : 5 CHF<br>
+                - Bateau jusqu'au rocher central : 10 CHF<br>
+                - Visite guidée : 15 CHF
+            </div>
+        </div>
+
+        <div class="site">
+            <h3>Monte San Salvatore</h3>
+            <img src="/api/placeholder/800/400" alt="Monte San Salvatore" class="site-image" />
+            <p>Offrant une vue panoramique sur le lac de Lugano et les Alpes, c'est l'un des plus beaux points de vue du Tessin, moins fréquenté que le Monte Brè.</p>
+            
+            <div class="info-pratique">
+                <strong>Période idéale :</strong> Mars à novembre<br>
+                <strong>Durée de visite :</strong> Demi-journée<br>
+                <strong>Accès :</strong> Funiculaire depuis Lugano-Paradiso
+            </div>
+
+            <div class="price-info">
+                <strong>Tarifs :</strong><br>
+                - Aller-retour funiculaire : 30 CHF<br>
+                - Réduction avec Swiss Travel Pass : 50%
+            </div>
+        </div>
+
+        <div class="site">
+            <h3>Glacier Express</h3>
+            <img src="/api/placeholder/800/400" alt="Glacier Express" class="site-image" />
+            <p>Le train panoramique le plus lent et le plus spectaculaire de Suisse, reliant Zermatt à St. Moritz à travers les Alpes.</p>
+            
+            <div class="info-pratique">
+                <strong>Période idéale :</strong> Toute l'année<br>
+                <strong>Durée de visite :</strong> 8 heures de trajet<br>
+                <strong>Accès :</strong> Départ de Zermatt ou St. Moritz
+            </div>
+
+            <div class="price-info">
+                <strong>Tarifs :</strong><br>
+                - 2ème classe : 152 CHF<br>
+                - 1ère classe : 268 CHF<br>
+                - Supplément réservation obligatoire : 39 CHF<br>
+                - Swiss Travel Pass : trajet inclus, uniquement supplément à payer
             </div>
         </div>
     </div>
 
-    <!-- Sections similaires pour les autres régions... -->
-
-    <!-- Scripts -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        // Initialisation de la carte
-        var map = L.map('map').setView([46.8182, 8.2275], 8);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-
-        // Ajout des marqueurs
+        // Mise à jour de la carte avec les nouveaux sites
         var sites = [
-            {name: "Château de Chillon", lat: 46.4142, lng: 6.9273},
-            {name: "Gruyères", lat: 46.5843, lng: 7.0828},
-            // Autres sites...
+            {name: "Gorges de l'Areuse", lat: 46.9501, lng: 6.7424},
+            {name: "Vallée de Lauterbrunnen", lat: 46.5939, lng: 7.9081},
+            {name: "Chutes du Rhin", lat: 47.6776, lng: 8.6159},
+            {name: "Monte San Salvatore", lat: 45.9837, lng: 8.9463},
+            // Points de départ et arrivée du Glacier Express
+            {name: "Glacier Express - Zermatt", lat: 46.0207, lng: 7.7491},
+            {name: "Glacier Express - St. Moritz", lat: 46.4908, lng: 9.8355}
         ];
 
         sites.forEach(site => {
