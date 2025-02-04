@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informations Suisse</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .info-block {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Informations Suisse</h1>
+    
+    <div class="info-block">
+        <h2>Date</h2>
+        <p id="current-date">4 février 2025</p>
+    </div>
+
+    <div class="info-block">
+        <h2>Cours du Franc Suisse</h2>
+        <p>Approximativement :</p>
+        <ul>
+            <li>1 CHF ≈ 1.05 EUR</li>
+            <li>1 CHF ≈ 1.13 USD</li>
+        </ul>
+    </div>
+
+    <script>
+        // Mise à jour automatique de la date
+        function updateDate() {
+            const date = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = date.toLocaleDateString('fr-FR', options);
+        }
+        updateDate();
+    </script>
+</body>
+</html>
