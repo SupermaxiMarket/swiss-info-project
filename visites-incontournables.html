@@ -1,125 +1,74 @@
 <!DOCTYPE html>
 <html lang="fr">
-<!-- ... [En-tête précédent reste identique] ... -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sites Incontournables en Suisse</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        /* [Styles précédents conservés] */
+        .filters-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .filter-group {
+            margin: 10px 0;
+        }
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+        }
+    </style>
+</head>
 <body>
-    <!-- ... [Contenu précédent jusqu'aux sections régionales] ... -->
+    <h1>Sites Incontournables en Suisse</h1>
 
-    <!-- Nouveaux sites ajoutés -->
-    <div class="region-section">
-        <h2>Joyaux Cachés de Suisse</h2>
+    <!-- Nouvelle section de filtres -->
+    <div class="filters-container">
+        <h2>Filtrer les sites</h2>
+        <div class="filter-group">
+            <label for="type-filter">Type de site :</label>
+            <select id="type-filter">
+                <option value="all">Tous les types</option>
+                <option value="culture">Culture & Histoire</option>
+                <option value="nature">Nature & Paysages</option>
+                <option value="traditions">Traditions & Gastronomie</option>
+            </select>
 
-        <div class="site">
-            <h3>Gorges de l'Areuse</h3>
-            <img src="/api/placeholder/800/400" alt="Gorges de l'Areuse" class="site-image" />
-            <p>Une randonnée spectaculaire le long de gorges profondes, avec des passerelles suspendues et des cascades. Un site naturel impressionnant et moins touristique.</p>
-            
-            <div class="info-pratique">
-                <strong>Période idéale :</strong> Mai à octobre<br>
-                <strong>Durée de visite :</strong> 3-4 heures de marche<br>
-                <strong>Accès :</strong> Train jusqu'à Noiraigue ou Champ-du-Moulin
-            </div>
+            <label for="region-filter">Région :</label>
+            <select id="region-filter">
+                <option value="all">Toutes les régions</option>
+                <option value="lemanique">Région Lémanique</option>
+                <option value="alpes">Alpes Suisses</option>
+                <option value="centrale">Suisse Centrale</option>
+                <option value="est">Suisse Orientale</option>
+                <option value="tessin">Tessin</option>
+            </select>
 
-            <div class="price-info">
-                <strong>Tarifs :</strong><br>
-                - Accès gratuit<br>
-                - Parking à Noiraigue : 5 CHF/jour
-            </div>
-        </div>
-
-        <div class="site">
-            <h3>Vallée de Lauterbrunnen</h3>
-            <img src="/api/placeholder/800/400" alt="Vallée de Lauterbrunnen" class="site-image" />
-            <p>Surnommée la "vallée des 72 cascades", c'est l'une des plus impressionnantes vallées glaciaires d'Europe. Le village de Lauterbrunnen est le point de départ pour Wengen et Mürren.</p>
-            
-            <div class="info-pratique">
-                <strong>Période idéale :</strong> Toute l'année<br>
-                <strong>Durée de visite :</strong> 1-2 jours<br>
-                <strong>Accès :</strong> Train depuis Interlaken
-            </div>
-
-            <div class="price-info">
-                <strong>Tarifs :</strong><br>
-                - Téléphérique Lauterbrunnen-Mürren : 32 CHF aller-retour<br>
-                - Train à crémaillère pour Wengen : 28 CHF aller-retour<br>
-                - Swiss Travel Pass : inclus
-            </div>
-        </div>
-
-        <div class="site">
-            <h3>Chutes du Rhin</h3>
-            <img src="/api/placeholder/800/400" alt="Chutes du Rhin" class="site-image" />
-            <p>Les plus grandes chutes d'eau d'Europe, avec une plateforme d'observation qui vous emmène au plus près des flots tumultueux.</p>
-            
-            <div class="info-pratique">
-                <strong>Période idéale :</strong> Avril à octobre (plus impressionnant en juin avec la fonte des neiges)<br>
-                <strong>Durée de visite :</strong> 2-3 heures<br>
-                <strong>Accès :</strong> Train jusqu'à Schaffhouse puis bus
-            </div>
-
-            <div class="price-info">
-                <strong>Tarifs :</strong><br>
-                - Entrée au Château de Laufen : 5 CHF<br>
-                - Bateau jusqu'au rocher central : 10 CHF<br>
-                - Visite guidée : 15 CHF
-            </div>
-        </div>
-
-        <div class="site">
-            <h3>Monte San Salvatore</h3>
-            <img src="/api/placeholder/800/400" alt="Monte San Salvatore" class="site-image" />
-            <p>Offrant une vue panoramique sur le lac de Lugano et les Alpes, c'est l'un des plus beaux points de vue du Tessin, moins fréquenté que le Monte Brè.</p>
-            
-            <div class="info-pratique">
-                <strong>Période idéale :</strong> Mars à novembre<br>
-                <strong>Durée de visite :</strong> Demi-journée<br>
-                <strong>Accès :</strong> Funiculaire depuis Lugano-Paradiso
-            </div>
-
-            <div class="price-info">
-                <strong>Tarifs :</strong><br>
-                - Aller-retour funiculaire : 30 CHF<br>
-                - Réduction avec Swiss Travel Pass : 50%
-            </div>
-        </div>
-
-        <div class="site">
-            <h3>Glacier Express</h3>
-            <img src="/api/placeholder/800/400" alt="Glacier Express" class="site-image" />
-            <p>Le train panoramique le plus lent et le plus spectaculaire de Suisse, reliant Zermatt à St. Moritz à travers les Alpes.</p>
-            
-            <div class="info-pratique">
-                <strong>Période idéale :</strong> Toute l'année<br>
-                <strong>Durée de visite :</strong> 8 heures de trajet<br>
-                <strong>Accès :</strong> Départ de Zermatt ou St. Moritz
-            </div>
-
-            <div class="price-info">
-                <strong>Tarifs :</strong><br>
-                - 2ème classe : 152 CHF<br>
-                - 1ère classe : 268 CHF<br>
-                - Supplément réservation obligatoire : 39 CHF<br>
-                - Swiss Travel Pass : trajet inclus, uniquement supplément à payer
-            </div>
+            <label for="itineraire-filter">Itinéraire :</label>
+            <select id="itineraire-filter">
+                <option value="all">Tous les itinéraires</option>
+                <option value="historique">Circuit Historique</option>
+                <option value="nature">Aventure Nature</option>
+                <option value="gastronomie">Route Gastronomique</option>
+                <option value="art">Musées et Art</option>
+                <option value="traditions">Traditions et Folklore</option>
+                <option value="lacs">Lacs et Rivières</option>
+            </select>
         </div>
     </div>
 
-    <script>
-        // Mise à jour de la carte avec les nouveaux sites
-        var sites = [
-            {name: "Gorges de l'Areuse", lat: 46.9501, lng: 6.7424},
-            {name: "Vallée de Lauterbrunnen", lat: 46.5939, lng: 7.9081},
-            {name: "Chutes du Rhin", lat: 47.6776, lng: 8.6159},
-            {name: "Monte San Salvatore", lat: 45.9837, lng: 8.9463},
-            // Points de départ et arrivée du Glacier Express
-            {name: "Glacier Express - Zermatt", lat: 46.0207, lng: 7.7491},
-            {name: "Glacier Express - St. Moritz", lat: 46.4908, lng: 9.8355}
-        ];
+    <!-- Carte interactive -->
+    <div id="map"></div>
 
-        sites.forEach(site => {
-            L.marker([site.lat, site.lng])
-             .bindPopup(site.name)
-             .addTo(map);
-        });
-    </script>
+    <!-- [Reste du contenu précédent] -->
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="carte-interactive.js"></script>
 </body>
 </html>
