@@ -4,71 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sites Incontournables en Suisse</title>
+    
+    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- MarkerCluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    
     <style>
         /* [Styles précédents conservés] */
-        .filters-container {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-        .filter-group {
-            margin: 10px 0;
-        }
-        select {
-            padding: 8px;
+        .legend {
+            padding: 10px;
+            background: white;
             border-radius: 5px;
-            border: 1px solid #ddd;
-            margin-right: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        .legend-item {
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+        .legend-color {
+            width: 20px;
+            height: 3px;
+            margin-right: 8px;
+        }
+        .travel-info {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
     <h1>Sites Incontournables en Suisse</h1>
 
-    <!-- Nouvelle section de filtres -->
+    <!-- Section filtres -->
     <div class="filters-container">
         <h2>Filtrer les sites</h2>
         <div class="filter-group">
-            <label for="type-filter">Type de site :</label>
-            <select id="type-filter">
-                <option value="all">Tous les types</option>
-                <option value="culture">Culture & Histoire</option>
-                <option value="nature">Nature & Paysages</option>
-                <option value="traditions">Traditions & Gastronomie</option>
-            </select>
-
-            <label for="region-filter">Région :</label>
-            <select id="region-filter">
-                <option value="all">Toutes les régions</option>
-                <option value="lemanique">Région Lémanique</option>
-                <option value="alpes">Alpes Suisses</option>
-                <option value="centrale">Suisse Centrale</option>
-                <option value="est">Suisse Orientale</option>
-                <option value="tessin">Tessin</option>
-            </select>
-
-            <label for="itineraire-filter">Itinéraire :</label>
-            <select id="itineraire-filter">
-                <option value="all">Tous les itinéraires</option>
-                <option value="historique">Circuit Historique</option>
-                <option value="nature">Aventure Nature</option>
-                <option value="gastronomie">Route Gastronomique</option>
-                <option value="art">Musées et Art</option>
-                <option value="traditions">Traditions et Folklore</option>
-                <option value="lacs">Lacs et Rivières</option>
-            </select>
+            <!-- [Filtres existants] -->
+        </div>
+        
+        <!-- Nouveau : Affichage des itinéraires -->
+        <div class="filter-group">
+            <h3>Afficher les itinéraires</h3>
+            <div id="itinerary-toggles">
+                <label>
+                    <input type="checkbox" value="historique"> Circuit Historique
+                </label>
+                <label>
+                    <input type="checkbox" value="nature"> Aventure Nature
+                </label>
+                <label>
+                    <input type="checkbox" value="gastronomie"> Route Gastronomique
+                </label>
+                <!-- ... autres itinéraires ... -->
+            </div>
         </div>
     </div>
 
     <!-- Carte interactive -->
     <div id="map"></div>
 
-    <!-- [Reste du contenu précédent] -->
+    <!-- Légende des itinéraires -->
+    <div id="map-legend" class="legend">
+        <h4>Légende des itinéraires</h4>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #FF0000;"></div>
+            Circuit Historique
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #00FF00;"></div>
+            Aventure Nature
+        </div>
+        <!-- ... autres itinéraires ... -->
+    </div>
 
     <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <script src="carte-interactive.js"></script>
 </body>
 </html>
