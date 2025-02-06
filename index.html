@@ -3,47 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informations Suisse</title>
+    <title>Découvrir la Suisse</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    
     <style>
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
+            margin: 0;
             padding: 20px;
+            font-family: Arial, sans-serif;
         }
-        .info-block {
+        
+        #map {
+            height: 500px;
+            border-radius: 10px;
             margin: 20px 0;
+        }
+        
+        .weather-widget {
+            background: white;
             padding: 15px;
-            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-top: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .info-panel {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .site-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        select {
+            padding: 8px;
             border-radius: 5px;
+            border: 1px solid #ddd;
         }
     </style>
 </head>
 <body>
-    <h1>Informations Suisse</h1>
+    <h1>Découvrir la Suisse</h1>
     
-    <div class="info-block">
-        <h2>Date</h2>
-        <p id="current-date">4 février 2025</p>
+    <div class="info-panel">
+        <h2>Points d'intérêt</h2>
+        <div class="filters">
+            <select id="region-filter">
+                <option value="all">Toutes les régions</option>
+                <option value="lemanique">Région Lémanique</option>
+                <option value="alpes">Alpes</option>
+                <option value="centre">Suisse Centrale</option>
+            </select>
+            
+            <select id="type-filter">
+                <option value="all">Tous les types</option>
+                <option value="nature">Nature</option>
+                <option value="culture">Culture</option>
+                <option value="ville">Villes</option>
+            </select>
+        </div>
     </div>
 
-    <div class="info-block">
-        <h2>Cours du Franc Suisse</h2>
-        <p>Approximativement :</p>
-        <ul>
-            <li>1 CHF ≈ 1.05 EUR</li>
-            <li>1 CHF ≈ 1.13 USD</li>
-        </ul>
+    <div id="map"></div>
+
+    <div class="weather-widget">
+        <h3>Météo actuelle</h3>
+        <div id="weather-info">Chargement...</div>
     </div>
 
-    <script>
-        // Mise à jour automatique de la date
-        function updateDate() {
-            const date = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('current-date').textContent = date.toLocaleDateString('fr-FR', options);
-        }
-        updateDate();
-    </script>
+    <div id="sites-list">
+        <!-- Les sites seront ajoutés ici dynamiquement -->
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>
