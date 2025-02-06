@@ -8,68 +8,90 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     
     <style>
-        #map { 
-            height: 600px; 
-            width: 100%;
-            margin: 20px 0;
-            border-radius: 8px;
-        }
-        .info-panel {
-            margin: 20px 0;
+        body {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 70% 30%;
+            gap: 20px;
+        }
+        
+        #map { 
+            height: 400px;
+            width: 100%;
+            border-radius: 8px;
+            grid-column: 1 / -1;
+        }
+        
+        .info-panel {
+            margin-bottom: 20px;
+            padding: 15px;
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            grid-column: 1 / -1;
         }
+        
         .weather-widget {
             background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
             color: white;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
-            margin: 20px 0;
+            height: fit-content;
         }
-        .weather-info {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 6px;
-        }
-        .loading {
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        .error-message {
-            color: #ff6b6b;
-            background: rgba(255,255,255,0.9);
-            padding: 10px;
+        
+        select {
+            padding: 8px;
             border-radius: 4px;
-            margin-top: 10px;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+        }
+        
+        .site-list {
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
     </style>
 </head>
 <body>
     <div class="info-panel">
         <h1>Découvrir la Suisse</h1>
-        <label for="region">Région : </label>
-        <select id="region">
-            <option value="all">Toutes les régions</option>
-            <option value="alpes">Alpes</option>
-            <option value="leman">Région lémanique</option>
-        </select>
+        <div>
+            <label for="region">Région : </label>
+            <select id="region">
+                <option value="all">Toutes les régions</option>
+                <option value="lemanique">Région Lémanique</option>
+                <option value="alpes">Alpes</option>
+                <option value="centrale">Suisse Centrale</option>
+                <option value="est">Suisse Orientale</option>
+                <option value="tessin">Tessin</option>
+                <option value="nord">Suisse du Nord</option>
+                <option value="romande">Suisse Romande</option>
+                <option value="plateau">Plateau Suisse</option>
+            </select>
+        </div>
     </div>
 
     <div id="map"></div>
 
-    <div class="weather-widget">
-        <h2>Météo</h2>
-        <div id="weather-info" class="weather-info">
-            Sélectionnez un lieu sur la carte pour voir la météo
+    <div class="container">
+        <div class="site-list">
+            <h2>Sites à visiter</h2>
+            <div id="sites-list"></div>
+        </div>
+
+        <div class="weather-widget">
+            <h2>Météo locale</h2>
+            <div id="weather-info">
+                Sélectionnez un lieu sur la carte
+            </div>
         </div>
     </div>
 
@@ -78,6 +100,58 @@
     <script>
         const WEATHER_API_KEY = '0300ccf18be7a719523e94b7daf5b6e2';
         
+        // Points d'intérêt
+        const sites = [
+            {
+                name: "Jungfraujoch",
+                coordinates: [46.5474, 7.9854],
+                description: "Plus haute gare d'Europe",
+                region: "alpes"
+            },
+            {
+                name: "Château de Chillon",
+                coordinates: [46.4142, 6.9273],
+                description: "Château médiéval au bord du lac Léman",
+                region: "lemanique"
+            },
+            {
+                name: "Lucerne",
+                coordinates: [47.0502, 8.3093],
+                description: "Ville historique avec le pont de la Chapelle",
+                region: "centrale"
+            },
+            {
+                name: "Mont Pilate",
+                coordinates: [46.9789, 8.2539],
+                description: "Montagne emblématique de Lucerne",
+                region: "centrale"
+            },
+            {
+                name: "Zermatt",
+                coordinates: [46.0207, 7.7491],
+                description: "Station de ski au pied du Cervin",
+                region: "alpes"
+            },
+            {
+                name: "Gruyères",
+                coordinates: [46.5843, 7.0828],
+                description: "Village médiéval et fromagerie",
+                region: "romande"
+            },
+            {
+                name: "Chutes du Rhin",
+                coordinates: [47.6776, 8.6159],
+                description: "Plus grandes chutes d'eau d'Europe",
+                region: "nord"
+            },
+            {
+                name: "Lugano",
+                coordinates: [46.0037, 8.9511],
+                description: "Ville tessinoise au bord du lac",
+                region: "tessin"
+            }
+        ];
+
         // Initialisation de la carte
         const map = L.map('map').setView([46.8182, 8.2275], 8);
 
@@ -86,59 +160,44 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // Points d'intérêt
-        const sites = [
-            {
-                name: "Jungfraujoch",
-                coordinates: [46.5474, 7.9854],
-                description: "Plus haute gare d'Europe"
-            },
-            {
-                name: "Château de Chillon",
-                coordinates: [46.4142, 6.9273],
-                description: "Château médiéval au bord du lac Léman"
-            }
-        ];
-
         // Fonction pour charger la météo
         async function loadWeather(lat, lng, locationName) {
             const weatherInfo = document.getElementById('weather-info');
-            weatherInfo.classList.add('loading');
+            weatherInfo.innerHTML = 'Chargement...';
             
             try {
                 const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${WEATHER_API_KEY}&units=metric&lang=fr`);
-                
-                if (!response.ok) {
-                    throw new Error(`Erreur HTTP: ${response.status}`);
-                }
-                
                 const data = await response.json();
                 
                 weatherInfo.innerHTML = `
-                    <div>
-                        <h3>${locationName}</h3>
-                        <p>🌡️ ${Math.round(data.main.temp)}°C</p>
-                        <p>💨 ${Math.round(data.wind.speed * 3.6)} km/h</p>
-                    </div>
-                    <div>
-                        <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="Météo">
-                        <p>${data.weather[0].description}</p>
-                    </div>
+                    <h3>${locationName}</h3>
+                    <p>🌡️ ${Math.round(data.main.temp)}°C</p>
+                    <p>💨 ${Math.round(data.wind.speed * 3.6)} km/h</p>
+                    <p>${data.weather[0].description}</p>
                 `;
             } catch (error) {
-                console.error('Erreur météo:', error);
-                weatherInfo.innerHTML = `
-                    <div class="error-message">
-                        ⚠️ Impossible de charger la météo pour ${locationName}
-                        <br>Veuillez réessayer plus tard
-                    </div>
-                `;
-            } finally {
-                weatherInfo.classList.remove('loading');
+                weatherInfo.innerHTML = '⚠️ Erreur de chargement';
             }
         }
 
-        // Ajout des marqueurs avec gestion de la météo
+        // Fonction pour mettre à jour la liste des sites
+        function updateSitesList(region) {
+            const sitesList = document.getElementById('sites-list');
+            sitesList.innerHTML = '';
+            
+            sites.forEach(site => {
+                if (region === 'all' || site.region === region) {
+                    const div = document.createElement('div');
+                    div.innerHTML = `
+                        <h3>${site.name}</h3>
+                        <p>${site.description}</p>
+                    `;
+                    sitesList.appendChild(div);
+                }
+            });
+        }
+
+        // Ajout des marqueurs
         sites.forEach(site => {
             const marker = L.marker(site.coordinates)
                 .bindPopup(`
@@ -149,12 +208,15 @@
                     </button>
                 `)
                 .addTo(map);
-
-            // Charger la météo au clic sur le marqueur
-            marker.on('click', () => {
-                loadWeather(site.coordinates[0], site.coordinates[1], site.name);
-            });
         });
+
+        // Gestion du filtre par région
+        document.getElementById('region').addEventListener('change', function(e) {
+            updateSitesList(e.target.value);
+        });
+
+        // Affichage initial
+        updateSitesList('all');
     </script>
 </body>
 </html>
