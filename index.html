@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Découvrir la Suisse</title>
     
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     
     <style>
@@ -22,6 +21,36 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+        .weather-widget {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .weather-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+        }
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .error-message {
+            color: #ff6b6b;
+            background: rgba(255,255,255,0.9);
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -37,14 +66,21 @@
 
     <div id="map"></div>
 
-    <!-- Leaflet JS -->
+    <div class="weather-widget">
+        <h2>Météo</h2>
+        <div id="weather-info" class="weather-info">
+            Sélectionnez un lieu sur la carte pour voir la météo
+        </div>
+    </div>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
     <script>
+        const WEATHER_API_KEY = '0300ccf18be7a719523e94b7daf5b6e2';
+        
         // Initialisation de la carte
         const map = L.map('map').setView([46.8182, 8.2275], 8);
 
-        // Ajout des tuiles OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors'
@@ -64,11 +100,60 @@
             }
         ];
 
-        // Ajout des marqueurs
+        // Fonction pour charger la météo
+        async function loadWeather(lat, lng, locationName) {
+            const weatherInfo = document.getElementById('weather-info');
+            weatherInfo.classList.add('loading');
+            
+            try {
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${WEATHER_API_KEY}&units=metric&lang=fr`);
+                
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                weatherInfo.innerHTML = `
+                    <div>
+                        <h3>${locationName}</h3>
+                        <p>🌡️ ${Math.round(data.main.temp)}°C</p>
+                        <p>💨 ${Math.round(data.wind.speed * 3.6)} km/h</p>
+                    </div>
+                    <div>
+                        <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="Météo">
+                        <p>${data.weather[0].description}</p>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Erreur météo:', error);
+                weatherInfo.innerHTML = `
+                    <div class="error-message">
+                        ⚠️ Impossible de charger la météo pour ${locationName}
+                        <br>Veuillez réessayer plus tard
+                    </div>
+                `;
+            } finally {
+                weatherInfo.classList.remove('loading');
+            }
+        }
+
+        // Ajout des marqueurs avec gestion de la météo
         sites.forEach(site => {
-            L.marker(site.coordinates)
-                .bindPopup(`<b>${site.name}</b><br>${site.description}`)
+            const marker = L.marker(site.coordinates)
+                .bindPopup(`
+                    <h3>${site.name}</h3>
+                    <p>${site.description}</p>
+                    <button onclick="loadWeather(${site.coordinates[0]}, ${site.coordinates[1]}, '${site.name}')">
+                        Voir la météo
+                    </button>
+                `)
                 .addTo(map);
+
+            // Charger la météo au clic sur le marqueur
+            marker.on('click', () => {
+                loadWeather(site.coordinates[0], site.coordinates[1], site.name);
+            });
         });
     </script>
 </body>
