@@ -4,26 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Découvrir la Suisse</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    
+    <!-- CSS Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+    
+    <!-- CSS MarkerCluster -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- JavaScript Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+    
+    <!-- JavaScript MarkerCluster -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     
     <style>
         body {
             margin: 0;
             padding: 20px;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Arial', sans-serif;
             background-color: #f5f7fa;
-            color: #2d3748;
         }
         
         h1 {
             color: #1a365d;
             text-align: center;
             margin-bottom: 30px;
-            font-size: 2.5em;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
         
         #map {
@@ -59,11 +69,6 @@
             background-color: white;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        select:hover {
-            border-color: #4299e1;
         }
         
         .weather-widget {
@@ -73,12 +78,6 @@
             border-radius: 12px;
             margin: 20px 0;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
-        .weather-widget h3 {
-            margin-top: 0;
-            font-size: 1.5em;
-            margin-bottom: 15px;
         }
         
         .site-card {
@@ -92,12 +91,6 @@
         
         .site-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        
-        .site-card h3 {
-            color: #2b6cb0;
-            margin-top: 0;
         }
         
         button {
@@ -107,15 +100,8 @@
             padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.2s;
-        }
-        
-        button:hover {
-            background-color: #2b6cb0;
         }
 
-        /* Animation pour le chargement de la météo */
         .loading {
             animation: pulse 1.5s infinite;
         }
@@ -162,8 +148,7 @@
         <!-- Les sites seront ajoutés ici dynamiquement -->
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <!-- Notre code JavaScript -->
     <script type="module" src="app.js"></script>
 </body>
 </html>
