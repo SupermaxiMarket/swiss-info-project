@@ -6,111 +6,29 @@
     <title>Découvrir la Suisse</title>
     
     <!-- CSS Leaflet -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-     crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     
     <!-- CSS MarkerCluster -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
     
-    <!-- JavaScript Leaflet -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-     crossorigin=""></script>
-    
-    <!-- JavaScript MarkerCluster -->
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-    
     <style>
         body {
             margin: 0;
             padding: 20px;
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             background-color: #f5f7fa;
-        }
-        
-        h1 {
-            color: #1a365d;
-            text-align: center;
-            margin-bottom: 30px;
         }
         
         #map {
             height: 500px;
+            width: 100%;
             border-radius: 15px;
             margin: 20px 0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1;
         }
         
-        .info-panel {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .info-panel h2 {
-            color: #2b6cb0;
-            margin-top: 0;
-        }
-        
-        .filters {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        select {
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 2px solid #e2e8f0;
-            background-color: white;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-        
-        .weather-widget {
-            background: linear-gradient(135deg, #6B46C1 0%, #4299E1 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin: 20px 0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
-        .site-card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin: 15px 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
-        }
-        
-        .site-card:hover {
-            transform: translateY(-2px);
-        }
-        
-        button {
-            background-color: #4299e1;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .loading {
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
+        /* ... autres styles ... */
     </style>
 </head>
 <body>
@@ -124,8 +42,6 @@
                 <option value="lemanique">Région Lémanique</option>
                 <option value="alpes">Alpes</option>
                 <option value="centre">Suisse Centrale</option>
-                <option value="est">Suisse Orientale</option>
-                <option value="tessin">Tessin</option>
             </select>
             
             <select id="type-filter">
@@ -141,14 +57,14 @@
 
     <div class="weather-widget">
         <h3>☀️ Météo actuelle</h3>
-        <div id="weather-info" class="loading">Chargement des données météo...</div>
+        <div id="weather-info">Chargement...</div>
     </div>
 
-    <div id="sites-list">
-        <!-- Les sites seront ajoutés ici dynamiquement -->
-    </div>
+    <div id="sites-list"></div>
 
-    <!-- Notre code JavaScript -->
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <script type="module" src="app.js"></script>
 </body>
 </html>
