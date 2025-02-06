@@ -4,63 +4,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Découvrir la Suisse</title>
-    
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <style>
         body {
             margin: 0;
             padding: 20px;
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+            color: #2d3748;
+        }
+        
+        h1 {
+            color: #1a365d;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
         
         #map {
             height: 500px;
-            border-radius: 10px;
+            border-radius: 15px;
             margin: 20px 0;
-        }
-        
-        .weather-widget {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         
         .info-panel {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        
-        .site-card {
             background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .info-panel h2 {
+            color: #2b6cb0;
+            margin-top: 0;
         }
         
         .filters {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
         }
         
         select {
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            background-color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        select:hover {
+            border-color: #4299e1;
+        }
+        
+        .weather-widget {
+            background: linear-gradient(135deg, #6B46C1 0%, #4299E1 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .weather-widget h3 {
+            margin-top: 0;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .site-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        
+        .site-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .site-card h3 {
+            color: #2b6cb0;
+            margin-top: 0;
+        }
+        
+        button {
+            background-color: #4299e1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background-color: #2b6cb0;
+        }
+
+        /* Animation pour le chargement de la météo */
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <h1>Découvrir la Suisse</h1>
+    <h1>🇨🇭 Découvrir la Suisse</h1>
     
     <div class="info-panel">
         <h2>Points d'intérêt</h2>
@@ -70,13 +138,15 @@
                 <option value="lemanique">Région Lémanique</option>
                 <option value="alpes">Alpes</option>
                 <option value="centre">Suisse Centrale</option>
+                <option value="est">Suisse Orientale</option>
+                <option value="tessin">Tessin</option>
             </select>
             
             <select id="type-filter">
                 <option value="all">Tous les types</option>
-                <option value="nature">Nature</option>
-                <option value="culture">Culture</option>
-                <option value="ville">Villes</option>
+                <option value="nature">🏔️ Nature</option>
+                <option value="culture">🏰 Culture</option>
+                <option value="ville">🏛️ Villes</option>
             </select>
         </div>
     </div>
@@ -84,15 +154,14 @@
     <div id="map"></div>
 
     <div class="weather-widget">
-        <h3>Météo actuelle</h3>
-        <div id="weather-info">Chargement...</div>
+        <h3>☀️ Météo actuelle</h3>
+        <div id="weather-info" class="loading">Chargement des données météo...</div>
     </div>
 
     <div id="sites-list">
         <!-- Les sites seront ajoutés ici dynamiquement -->
     </div>
 
-    <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <script type="module" src="app.js"></script>
