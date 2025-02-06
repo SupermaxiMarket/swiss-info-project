@@ -5,66 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Découvrir la Suisse</title>
     
-    <!-- CSS Leaflet -->
+    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     
-    <!-- CSS MarkerCluster -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-    
     <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-            background-color: #f5f7fa;
-        }
-        
-        #map {
-            height: 500px;
+        #map { 
+            height: 600px; 
             width: 100%;
-            border-radius: 15px;
             margin: 20px 0;
-            z-index: 1;
+            border-radius: 8px;
         }
-        
-        /* ... autres styles ... */
+        .info-panel {
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
-    <h1>🇨🇭 Découvrir la Suisse</h1>
-    
     <div class="info-panel">
-        <h2>Points d'intérêt</h2>
-        <div class="filters">
-            <select id="region-filter">
-                <option value="all">Toutes les régions</option>
-                <option value="lemanique">Région Lémanique</option>
-                <option value="alpes">Alpes</option>
-                <option value="centre">Suisse Centrale</option>
-            </select>
-            
-            <select id="type-filter">
-                <option value="all">Tous les types</option>
-                <option value="nature">🏔️ Nature</option>
-                <option value="culture">🏰 Culture</option>
-                <option value="ville">🏛️ Villes</option>
-            </select>
-        </div>
+        <h1>Découvrir la Suisse</h1>
+        <label for="region">Région : </label>
+        <select id="region">
+            <option value="all">Toutes les régions</option>
+            <option value="alpes">Alpes</option>
+            <option value="leman">Région lémanique</option>
+        </select>
     </div>
 
     <div id="map"></div>
 
-    <div class="weather-widget">
-        <h3>☀️ Météo actuelle</h3>
-        <div id="weather-info">Chargement...</div>
-    </div>
-
-    <div id="sites-list"></div>
-
-    <!-- Scripts -->
+    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-    <script type="module" src="app.js"></script>
+    
+    <script>
+        // Initialisation de la carte
+        const map = L.map('map').setView([46.8182, 8.2275], 8);
+
+        // Ajout des tuiles OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Points d'intérêt
+        const sites = [
+            {
+                name: "Jungfraujoch",
+                coordinates: [46.5474, 7.9854],
+                description: "Plus haute gare d'Europe"
+            },
+            {
+                name: "Château de Chillon",
+                coordinates: [46.4142, 6.9273],
+                description: "Château médiéval au bord du lac Léman"
+            }
+        ];
+
+        // Ajout des marqueurs
+        sites.forEach(site => {
+            L.marker(site.coordinates)
+                .bindPopup(`<b>${site.name}</b><br>${site.description}`)
+                .addTo(map);
+        });
+    </script>
 </body>
 </html>
