@@ -1,41 +1,280 @@
 <!DOCTYPE html>
 <html lang="fr">
-<!-- ... [Styles précédents inchangés] ... -->
-<script>
-    const WEATHER_API_KEY = '0300ccf18be7a719523e94b7daf5b6e2';
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Découvrir la Suisse</title>
     
-    // Mise à jour des sites avec des images
-    const sites = [
-        {
-            name: "Jungfraujoch",
-            coordinates: [46.5474, 7.9854],
-            description: "Plus haute gare d'Europe, offrant une vue spectaculaire sur les Alpes. L'ascension en train est une expérience unique.",
-            region: "alpes",
-            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Jungfraujoch.jpg/800px-Jungfraujoch.jpg"
-        },
-        {
-            name: "Château de Chillon",
-            coordinates: [46.4142, 6.9273],
-            description: "Ce château médiéval pittoresque situé sur les rives du lac Léman est un véritable voyage dans le temps.",
-            region: "lemanique",
-            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Chateau_de_Chillon_on_Lake_Geneva.jpg/800px-Chateau_de_Chillon_on_Lake_Geneva.jpg"
-        },
-        {
-            name: "Lucerne",
-            coordinates: [47.0502, 8.3093],
-            description: "Ville historique célèbre pour son pont de la Chapelle et ses monuments médiévaux bien préservés.",
-            region: "centrale",
-            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Luzern_Kapellbr%C3%BCcke.jpg/800px-Luzern_Kapellbr%C3%BCcke.jpg"
-        },
-        {
-            name: "Zermatt",
-            coordinates: [46.0207, 7.7491],
-            description: "Station de ski au pied du Cervin",
-            region: "alpes",
-            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Matterhorn_from_Zermatt.jpg/800px-Matterhorn_from_Zermatt.jpg"
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    
+    <style>
+        body {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
         }
-    ];
+        
+        .header {
+            background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        
+        #map { 
+            height: 400px;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        
+        .filter-panel {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
 
-    // ... [Reste du code JavaScript inchangé] ...
-</script>
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-top: 5px;
+            font-size: 16px;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .sites-list {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .site-card {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            transition: transform 0.2s;
+        }
+
+        .site-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .site-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .weather-widget {
+            background: linear-gradient(135deg, #4299e1 0%, #2b6cb0 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            height: fit-content;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        button {
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #2b6cb0;
+        }
+
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🇨🇭 Découvrir la Suisse</h1>
+    </div>
+
+    <div class="filter-panel">
+        <label for="region">Filtrer par région :</label>
+        <select id="region">
+            <option value="all">Toutes les régions</option>
+            <option value="lemanique">Région Lémanique</option>
+            <option value="alpes">Alpes</option>
+            <option value="centrale">Suisse Centrale</option>
+            <option value="est">Suisse Orientale</option>
+            <option value="tessin">Tessin</option>
+        </select>
+    </div>
+
+    <div id="map"></div>
+
+    <div class="content">
+        <div class="sites-list">
+            <h2>Sites à visiter</h2>
+            <div id="sites-list"></div>
+        </div>
+
+        <div class="weather-widget">
+            <h2>☀️ Météo locale</h2>
+            <div id="weather-info">
+                Sélectionnez un site sur la carte
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const WEATHER_API_KEY = '0300ccf18be7a719523e94b7daf5b6e2';
+        
+        const sites = [
+            {
+                name: "Jungfraujoch",
+                coordinates: [46.5474, 7.9854],
+                description: "Plus haute gare d'Europe, offrant une vue spectaculaire sur les Alpes. L'ascension en train est une expérience unique.",
+                region: "alpes",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Jungfraujoch.jpg/800px-Jungfraujoch.jpg"
+            },
+            {
+                name: "Château de Chillon",
+                coordinates: [46.4142, 6.9273],
+                description: "Ce château médiéval pittoresque situé sur les rives du lac Léman est un véritable voyage dans le temps.",
+                region: "lemanique",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Chateau_de_Chillon_on_Lake_Geneva.jpg/800px-Chateau_de_Chillon_on_Lake_Geneva.jpg"
+            },
+            {
+                name: "Lucerne",
+                coordinates: [47.0502, 8.3093],
+                description: "Ville historique célèbre pour son pont de la Chapelle et ses monuments médiévaux bien préservés.",
+                region: "centrale",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Luzern_Kapellbr%C3%BCcke.jpg/800px-Luzern_Kapellbr%C3%BCcke.jpg"
+            },
+            {
+                name: "Zermatt",
+                coordinates: [46.0207, 7.7491],
+                description: "Station de ski au pied du Cervin",
+                region: "alpes",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Matterhorn_from_Zermatt.jpg/800px-Matterhorn_from_Zermatt.jpg"
+            }
+        ];
+
+        // Initialisation de la carte
+        const map = L.map('map').setView([46.8182, 8.2275], 8);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // Fonction pour charger la météo
+        async function loadWeather(lat, lng, locationName) {
+            const weatherInfo = document.getElementById('weather-info');
+            weatherInfo.classList.add('loading');
+            weatherInfo.innerHTML = 'Chargement...';
+            
+            try {
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${WEATHER_API_KEY}&units=metric&lang=fr`);
+                const data = await response.json();
+                
+                weatherInfo.innerHTML = `
+                    <h3>${locationName}</h3>
+                    <p>🌡️ ${Math.round(data.main.temp)}°C</p>
+                    <p>💨 ${Math.round(data.wind.speed * 3.6)} km/h</p>
+                    <p>${data.weather[0].description}</p>
+                `;
+            } catch (error) {
+                weatherInfo.innerHTML = '⚠️ Erreur de chargement';
+            } finally {
+                weatherInfo.classList.remove('loading');
+            }
+        }
+
+        // Mise à jour de la liste des sites
+        function updateSitesList(region) {
+            const sitesList = document.getElementById('sites-list');
+            sitesList.innerHTML = '';
+            
+            sites.forEach(site => {
+                if (region === 'all' || site.region === region) {
+                    const card = document.createElement('div');
+                    card.className = 'site-card';
+                    card.innerHTML = `
+                        <img src="${site.image}" alt="${site.name}" 
+                             onerror="this.src='https://via.placeholder.com/400x300?text=${encodeURIComponent(site.name)}'">
+                        <h3>${site.name}</h3>
+                        <p>${site.description}</p>
+                        <button onclick="loadWeather(${site.coordinates[0]}, ${site.coordinates[1]}, '${site.name}')">
+                            Voir la météo
+                        </button>
+                    `;
+                    sitesList.appendChild(card);
+                }
+            });
+        }
+
+        // Ajout des marqueurs sur la carte
+        sites.forEach(site => {
+            L.marker(site.coordinates)
+                .bindPopup(`
+                    <div style="text-align: center">
+                        <h3>${site.name}</h3>
+                        <img src="${site.image}" 
+                             style="width:200px; border-radius:4px; margin:10px 0"
+                             onerror="this.src='https://via.placeholder.com/200x150?text=${encodeURIComponent(site.name)}'">
+                        <p>${site.description}</p>
+                        <button onclick="loadWeather(${site.coordinates[0]}, ${site.coordinates[1]}, '${site.name}')">
+                            Voir la météo
+                        </button>
+                    </div>
+                `)
+                .addTo(map);
+        });
+
+        // Gestionnaire du filtre par région
+        document.getElementById('region').addEventListener('change', function(e) {
+            updateSitesList(e.target.value);
+        });
+
+        // Affichage initial
+        updateSitesList('all');
+    </script>
+</body>
 </html>
