@@ -1,0 +1,25 @@
+{
+  "sites": [
+    {
+      "id": "jungfraujoch",
+      "name": "Jungfraujoch",
+      "description": "Plus haute gare d'Europe, offrant une vue spectaculaire sur les Alpes.",
+      "imageUrl": "https://www.jungfrau.ch/fileadmin/_processed_/2/0/csm_header_5_plateau_ba1655902e.jpg",
+      "region": "Berne"
+    },
+    {
+      "id": "chateau-chillon",
+      "name": "Château de Chillon",
+      "description": "Ce château médiéval pittoresque situé sur les rives du lac Léman.",
+      "imageUrl": "https://www.chillon.ch/media/2022/07/chateau-chillon-printemps-facade-nord.jpg",
+      "region": "Vaud"
+    },
+    {
+      "id": "lucerne",
+      "name": "Lucerne",
+      "description": "Ville historique célèbre pour son pont de la Chapelle.",
+      "imageUrl": "https://www.myswitzerland.com/fr/planification/a-propos-de-la-suisse/pont-de-la-chapelle/jcr:content/image.1366.jpg/kapellbruecke.jpg",
+      "region": "Lucerne"
+    }
+  ]
+}
