@@ -1,0 +1,16 @@
+{
+  "sites": [
+    {
+      "id": "chateau-chillon",
+      "url": "https://www.chillon.ch/media/2022/07/chateau-chillon-printemps-facade-nord.jpg",
+      "alt": "Château de Chillon",
+      "credit": "© Château de Chillon"
+    },
+    {
+      "id": "lucerne-kapellbrucke",
+      "url": "https://www.myswitzerland.com/fr/planification/a-propos-de-la-suisse/pont-de-la-chapelle/jcr:content/image.1366.jpg/kapellbruecke.jpg",
+      "alt": "Pont de la Chapelle à Lucerne",
+      "credit": "© Suisse Tourisme"
+    }
+  ]
+}
